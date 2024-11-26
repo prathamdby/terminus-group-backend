@@ -8,45 +8,69 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex space-x-7">
-                    <div class="flex items-center">
-                        <h1 class="text-xl font-bold">Forms Dashboard</h1>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-4">
-                        <a href="/projects.html" class="py-4 px-2 hover:text-blue-500">Projects</a>
-                        <a href="/team.html" class="py-4 px-2 hover:text-blue-500">Team</a>
-                        <a href="/news.html" class="py-4 px-2 hover:text-blue-500">News</a>
-                        <a href="/awards.html" class="py-4 px-2 hover:text-blue-500">Awards</a>
-                    </div>
+    <nav class="bg-white shadow-lg mb-4 sm:mb-8">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4">
+            <div class="flex justify-between h-14 sm:h-16">
+                <div class="flex items-center">
+                    <h1 class="text-lg sm:text-xl font-bold">Forms Dashboard</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-4 sm:space-x-7">
+                    <a href="/projects.html" class="py-2 sm:py-4 px-2 hover:text-blue-500 transition-colors">Projects</a>
+                    <a href="/team.html" class="py-2 sm:py-4 px-2 hover:text-blue-500 transition-colors">Team</a>
+                    <a href="/news.html" class="py-2 sm:py-4 px-2 hover:text-blue-500 transition-colors">News</a>
+                    <a href="/awards.html" class="py-2 sm:py-4 px-2 hover:text-blue-500 transition-colors">Awards</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-3">
+                <div class="flex flex-col space-y-2">
+                    <a href="/projects.html" class="py-2 px-4 hover:bg-gray-100 rounded-md">Projects</a>
+                    <a href="/team.html" class="py-2 px-4 hover:bg-gray-100 rounded-md">Team</a>
+                    <a href="/news.html" class="py-2 px-4 hover:bg-gray-100 rounded-md">News</a>
+                    <a href="/awards.html" class="py-2 px-4 hover:bg-gray-100 rounded-md">Awards</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="px-4 py-6 sm:px-0">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="/projects.html" class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <h2 class="text-xl font-semibold mb-2">Projects</h2>
-                    <p class="text-gray-600">Manage project information and details</p>
+    <main class="max-w-7xl mx-auto py-4 sm:py-6 px-2 sm:px-4 lg:px-8">
+        <div class="px-2 sm:px-4 py-4 sm:py-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <a href="/projects.html" class="block p-4 sm:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-2">Projects</h2>
+                    <p class="text-sm sm:text-base text-gray-600">Manage project information and details</p>
                 </a>
-                <a href="/team.html" class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <h2 class="text-xl font-semibold mb-2">Team</h2>
-                    <p class="text-gray-600">Manage team members and roles</p>
+                <a href="/team.html" class="block p-4 sm:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-2">Team</h2>
+                    <p class="text-sm sm:text-base text-gray-600">Manage team members and roles</p>
                 </a>
-                <a href="/news.html" class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <h2 class="text-xl font-semibold mb-2">News</h2>
-                    <p class="text-gray-600">Manage news and articles</p>
+                <a href="/news.html" class="block p-4 sm:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-2">News</h2>
+                    <p class="text-sm sm:text-base text-gray-600">Manage news and articles</p>
                 </a>
-                <a href="/awards.html" class="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <h2 class="text-xl font-semibold mb-2">Awards</h2>
-                    <p class="text-gray-600">Manage awards and recognition</p>
+                <a href="/awards.html" class="block p-4 sm:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-2">Awards</h2>
+                    <p class="text-sm sm:text-base text-gray-600">Manage awards and recognition</p>
                 </a>
             </div>
         </div>
     </main>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
