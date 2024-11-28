@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Awards Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+      <a
+        href="/"
+        class="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 group"
+      >
+        <svg
+          class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        <span class="text-lg font-semibold">Back to Dashboard</span>
+      </a>
+
+      <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">
+          Add Award
+        </h1>
+
+        <form id="awardForm" class="space-y-6">
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Name -->
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 mb-2"
+                for="name"
+              >
+                Award Name *
+              </label>
+              <input
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                id="name"
+                type="text"
+                required
+              />
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 mb-2"
+                for="description"
+              >
+                Description *
+              </label>
+              <textarea
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                id="description"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Image -->
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 mb-2"
+                for="image"
+              >
+                Award Image *
+              </label>
+              <div
+                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors"
+              >
+                <div class="space-y-1 text-center">
+                  <svg
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <div class="flex text-sm text-gray-600">
+                    <label
+                      for="image"
+                      class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
+                    >
+                      <span>Upload image</span>
+                      <input
+                        id="image"
+                        type="file"
+                        class="sr-only"
+                        accept="image/*"
+                        required
+                      />
+                    </label>
+                  </div>
+                  <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-6">
+            <button
+              type="submit"
+              class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Add Award
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("awardForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData();
+          const form = e.target;
+
+          // Add text fields
+          formData.append("name", form.name.value);
+          formData.append("description", form.description.value);
+
+          // Add image
+          if (form.image.files[0]) {
+            formData.append("image", form.image.files[0]);
+          }
+
+          try {
+            const response = await fetch("/forms/awards", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to add award");
+            }
+
+            alert("Award added successfully!");
+            form.reset();
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to add award. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>
