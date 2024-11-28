@@ -13,7 +13,7 @@ To deploy this Node.js/Express backend on Render:
    - Name: Choose a name for your service
    - Environment: Node
    - Region: Choose the closest region
-   - Branch: master
+   - Branch: main
    - Build Command: `npm ci; npm run build`
    - Start Command: `npm start`
    - Instance Type: Free (or choose paid tier for production)
