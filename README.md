@@ -1,16 +1,24 @@
-# README
+# terminus-group-backend
 
-This is the [Express](https://expressjs.com) [Hello world](https://expressjs.com/en/starter/hello-world.html) example on [Render](https://render.com).
-
-The app in this repo is deployed at [https://express-typescript.onrender.com](https://express-typescript.onrender.com).
+Backend for the Terminus Group platform.
 
 ## Deployment
 
-See https://render.com/docs/deploy-node-express-app or follow the steps below:
+To deploy this Node.js/Express backend on Render:
 
-Create a new web service with the following values:
+1. Create a Render account at https://render.com if you don't have one
+2. Click the "New +" button and select "Web Service"
+3. Connect your GitHub repository or paste the repository URL: https://github.com/prathamdby/terminus-group-backend
+4. Configure the following settings:
+   - Name: Choose a name for your service
+   - Environment: Node
+   - Region: Choose the closest region
+   - Branch: master
+   - Build Command: `npm ci; npm run build`
+   - Start Command: `npm start`
+   - Instance Type: Free (or choose paid tier for production)
+5. Click "Create Web Service"
 
-- Build Command: `npm ci; npm run build`
-- Start Command: `npm start`
+Render will automatically build and deploy your application. Once complete, you can access it at the provided .onrender.com URL.
 
-That's it! Your web service will be live on your Render URL as soon as the build finishes.
+For more details, see the [Render Node.js deployment docs](https://render.com/docs/deploy-node-express-app).
