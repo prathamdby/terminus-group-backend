@@ -23,6 +23,19 @@ app.get("/", (_, res) => {
   res.status(200).send("Hello, world!");
 });
 
+app.get("/health", (_, res) => {
+  const uptime = process.uptime();
+  const timestamp = new Date().toISOString();
+
+  res.status(200).send({
+    message: "Server is healthy",
+    timestamp,
+    uptime: `${Math.floor(uptime / 3600)} hours, ${
+      Math.floor(uptime / 60) % 60
+    } minutes, ${Math.floor(uptime) % 60} seconds`,
+  });
+});
+
 connectDB()
   .then(() => {
     const server = app.listen(port, () =>
