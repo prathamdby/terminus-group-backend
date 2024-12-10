@@ -75,6 +75,15 @@ router.get("/project", async (req, res) => {
   }
 });
 
+router.get("/project/:id", async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    res.json(project);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
 router.post(
   "/project",
   upload.fields([
