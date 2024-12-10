@@ -95,6 +95,10 @@ router.post(
         ...req.body,
         images: imageUrls,
         brochureUrl,
+        tags: req.body.tags.split(",").map((tag: String) => tag.trim()),
+        consultants: req.body.consultants
+          .split(",")
+          .map((consultant: String) => consultant.trim()),
       });
 
       res.status(201).json(project);

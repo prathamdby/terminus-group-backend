@@ -366,16 +366,10 @@
           formData.append("landscapeArchitect", form.landscapeArchitect.value);
           formData.append("structuralEngineer", form.structuralEngineer.value);
           formData.append("projectManagement", form.projectManagement.value);
-          formData.append(
-            "consultants",
-            form.consultants.value.split(",").map((tag) => tag.trim()),
-          );
+          formData.append("consultants", form.consultants.value);
           formData.append("secondarySummary", form.secondarySummary.value);
           formData.append("youtubeVideoUrl", form.youtubeVideo.value);
-          formData.append(
-            "tags",
-            form.tags.value.split(",").map((tag) => tag.trim()),
-          );
+          formData.append("tags", form.tags.value);
 
           // Add files
           const images = form.images.files;
