@@ -7,6 +7,7 @@ const projectSchema = new mongoose.Schema(
     yearOfCompletion: { type: Number, required: true },
     description: { type: String, required: true },
     status: { type: String, required: true },
+    type: { type: String, required: true },
     architect: { type: String, required: true },
     landscapeArchitect: String,
     structuralEngineer: String,
