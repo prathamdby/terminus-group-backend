@@ -232,4 +232,104 @@ router.delete("/awards/:id", async (req, res) => {
   }
 });
 
+// Edit routes for each category
+router.put(
+  "/project/:id",
+  upload.fields([
+    { name: "images", maxCount: 5 },
+    { name: "brochure", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      const updateData = { ...req.body };
+
+      if (files?.images) {
+        const imageUrls = await uploadMultipleFiles(files.images);
+        if (imageUrls.length > 0) updateData.images = imageUrls;
+      }
+
+      if (files?.brochure) {
+        const brochureUrl = await uploadSingleFile(files.brochure[0]);
+        if (brochureUrl) updateData.brochureUrl = brochureUrl;
+      }
+
+      if (req.body.tags) {
+        updateData.tags = req.body.tags
+          .split(",")
+          .map((tag: string) => tag.trim());
+      }
+
+      if (req.body.consultants) {
+        updateData.consultants = req.body.consultants
+          .split(",")
+          .map((consultant: string) => consultant.trim());
+      }
+
+      const project = await Project.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true },
+      );
+      res.json(project);
+    } catch (error: unknown) {
+      res.status(400).json({ error: generateErrorMessage(error) });
+    }
+  },
+);
+
+router.put("/team/:id", upload.single("picture"), async (req, res) => {
+  try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      const imageUrl = await uploadSingleFile(req.file);
+      if (imageUrl) updateData.image = imageUrl;
+    }
+
+    const team = await Team.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
+    res.json(team);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.put("/news/:id", upload.single("image"), async (req, res) => {
+  try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      const imageUrl = await uploadSingleFile(req.file);
+      if (imageUrl) updateData.image = imageUrl;
+    }
+
+    const news = await News.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
+    res.json(news);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.put("/awards/:id", upload.single("image"), async (req, res) => {
+  try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      const imageUrl = await uploadSingleFile(req.file);
+      if (imageUrl) updateData.image = imageUrl;
+    }
+
+    const award = await Award.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
+    res.json(award);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
 export default router;
