@@ -117,85 +117,6 @@ router.post(
   },
 );
 
-// Team routes
-router.get("/team", async (req, res) => {
-  try {
-    const teams = await Team.find().sort({ name: 1 });
-    res.json(teams);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-router.post("/team", upload.single("picture"), async (req, res) => {
-  try {
-    const imageUrl = await uploadSingleFile(req.file);
-    if (!imageUrl) throw new Error("Failed to upload image.");
-
-    const team = await Team.create({
-      ...req.body,
-      image: imageUrl,
-    });
-
-    res.status(201).json(team);
-  } catch (error: unknown) {
-    res.status(400).json({ error: generateErrorMessage(error) });
-  }
-});
-
-// News routes
-router.get("/news", async (req, res) => {
-  try {
-    const news = await News.find().sort({ createdAt: -1 });
-    res.json(news);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-router.post("/news", upload.single("image"), async (req, res) => {
-  try {
-    const imageUrl = await uploadSingleFile(req.file);
-    if (!imageUrl) throw new Error("Failed to upload image.");
-
-    const news = await News.create({
-      ...req.body,
-      image: imageUrl,
-    });
-
-    res.status(201).json(news);
-  } catch (error: unknown) {
-    res.status(400).json({ error: generateErrorMessage(error) });
-  }
-});
-
-// Awards routes
-router.get("/awards", async (req, res) => {
-  try {
-    const awards = await Award.find().sort({ createdAt: -1 });
-    res.json(awards);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-router.post("/awards", upload.single("image"), async (req, res) => {
-  try {
-    const imageUrl = await uploadSingleFile(req.file);
-    if (!imageUrl) throw new Error("Failed to upload image.");
-
-    const award = await Award.create({
-      ...req.body,
-      image: imageUrl,
-    });
-
-    res.status(201).json(award);
-  } catch (error: unknown) {
-    res.status(400).json({ error: generateErrorMessage(error) });
-  }
-});
-
-// Delete routes for each category
 router.delete("/project/:id", async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
@@ -205,34 +126,6 @@ router.delete("/project/:id", async (req, res) => {
   }
 });
 
-router.delete("/team/:id", async (req, res) => {
-  try {
-    await Team.findByIdAndDelete(req.params.id);
-    res.status(204).send(`Team with id ${req.params.id} deleted`);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-router.delete("/news/:id", async (req, res) => {
-  try {
-    await News.findByIdAndDelete(req.params.id);
-    res.status(204).send(`News with id ${req.params.id} deleted`);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-router.delete("/awards/:id", async (req, res) => {
-  try {
-    await Award.findByIdAndDelete(req.params.id);
-    res.status(204).send(`Award with id ${req.params.id} deleted`);
-  } catch (error: unknown) {
-    res.status(500).json({ error: generateErrorMessage(error) });
-  }
-});
-
-// Edit routes for each category
 router.put(
   "/project/:id",
   upload.fields([
@@ -278,6 +171,50 @@ router.put(
   },
 );
 
+// Team routes
+router.get("/team", async (req, res) => {
+  try {
+    const teams = await Team.find().sort({ name: 1 });
+    res.json(teams);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.get("/team/:id", async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.id);
+    res.json(team);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.post("/team", upload.single("picture"), async (req, res) => {
+  try {
+    const imageUrl = await uploadSingleFile(req.file);
+    if (!imageUrl) throw new Error("Failed to upload image.");
+
+    const team = await Team.create({
+      ...req.body,
+      image: imageUrl,
+    });
+
+    res.status(201).json(team);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/team/:id", async (req, res) => {
+  try {
+    await Team.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Team with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
 router.put("/team/:id", upload.single("picture"), async (req, res) => {
   try {
     const updateData = { ...req.body };
@@ -296,6 +233,50 @@ router.put("/team/:id", upload.single("picture"), async (req, res) => {
   }
 });
 
+// News routes
+router.get("/news", async (req, res) => {
+  try {
+    const news = await News.find().sort({ createdAt: -1 });
+    res.json(news);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.get("/news/:id", async (req, res) => {
+  try {
+    const news = await News.findById(req.params.id);
+    res.json(news);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.post("/news", upload.single("image"), async (req, res) => {
+  try {
+    const imageUrl = await uploadSingleFile(req.file);
+    if (!imageUrl) throw new Error("Failed to upload image.");
+
+    const news = await News.create({
+      ...req.body,
+      image: imageUrl,
+    });
+
+    res.status(201).json(news);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/news/:id", async (req, res) => {
+  try {
+    await News.findByIdAndDelete(req.params.id);
+    res.status(204).send(`News with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
 router.put("/news/:id", upload.single("image"), async (req, res) => {
   try {
     const updateData = { ...req.body };
@@ -311,6 +292,50 @@ router.put("/news/:id", upload.single("image"), async (req, res) => {
     res.json(news);
   } catch (error: unknown) {
     res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+// Awards routes
+router.get("/awards", async (req, res) => {
+  try {
+    const awards = await Award.find().sort({ createdAt: -1 });
+    res.json(awards);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.get("/awards/:id", async (req, res) => {
+  try {
+    const award = await Award.findById(req.params.id);
+    res.json(award);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.post("/awards", upload.single("image"), async (req, res) => {
+  try {
+    const imageUrl = await uploadSingleFile(req.file);
+    if (!imageUrl) throw new Error("Failed to upload image.");
+
+    const award = await Award.create({
+      ...req.body,
+      image: imageUrl,
+    });
+
+    res.status(201).json(award);
+  } catch (error: unknown) {
+    res.status(400).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/awards/:id", async (req, res) => {
+  try {
+    await Award.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Award with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
   }
 });
 
