@@ -195,4 +195,41 @@ router.post("/awards", upload.single("image"), async (req, res) => {
   }
 });
 
+// Delete routes for each category
+router.delete("/project/:id", async (req, res) => {
+  try {
+    await Project.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Project with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/team/:id", async (req, res) => {
+  try {
+    await Team.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Team with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/news/:id", async (req, res) => {
+  try {
+    await News.findByIdAndDelete(req.params.id);
+    res.status(204).send(`News with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
+router.delete("/awards/:id", async (req, res) => {
+  try {
+    await Award.findByIdAndDelete(req.params.id);
+    res.status(204).send(`Award with id ${req.params.id} deleted`);
+  } catch (error: unknown) {
+    res.status(500).json({ error: generateErrorMessage(error) });
+  }
+});
+
 export default router;
