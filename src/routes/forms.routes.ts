@@ -190,7 +190,7 @@ router.get("/team/:id", async (req, res) => {
   }
 });
 
-router.post("/team", upload.single("picture"), async (req, res) => {
+router.post("/team", upload.single("image"), async (req, res) => {
   try {
     const imageUrl = await uploadSingleFile(req.file);
     if (!imageUrl) throw new Error("Failed to upload image.");

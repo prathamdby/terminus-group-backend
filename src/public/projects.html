@@ -29,7 +29,10 @@
       </a>
 
       <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">
+        <h1
+          class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8"
+          id="formTitle"
+        >
           Add New Project
         </h1>
 
@@ -254,7 +257,6 @@
                         class="sr-only"
                         multiple
                         accept="image/*"
-                        required
                       />
                     </label>
                   </div>
@@ -369,57 +371,129 @@
     </div>
 
     <script>
-      document
-        .getElementById("projectForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get("id");
 
-          const formData = new FormData();
-          const form = e.target;
+      const form = document.getElementById("projectForm");
+      const formTitle = document.getElementById("formTitle");
 
-          // Add text fields
-          formData.append("title", form.title.value);
-          formData.append("location", form.location.value);
-          formData.append("yearOfCompletion", form.yearOfCompletion.value);
-          formData.append("description", form.description.value);
-          formData.append("status", form.status.value);
-          formData.append("type", form.type.value);
-          formData.append("architect", form.architect.value);
-          formData.append("landscapeArchitect", form.landscapeArchitect.value);
-          formData.append("structuralEngineer", form.structuralEngineer.value);
-          formData.append("projectManagement", form.projectManagement.value);
-          formData.append("consultants", form.consultants.value);
-          formData.append("secondarySummary", form.secondarySummary.value);
-          formData.append("youtubeVideoUrl", form.youtubeVideo.value);
-          formData.append("tags", form.tags.value);
+      if (projectId) {
+        formTitle.textContent = "Edit Project";
 
-          // Add files
-          const images = form.images.files;
-          for (let i = 0; i < images.length; i++) {
-            formData.append("images", images[i]);
+        // Fetch the existing project data
+        fetch(`/forms/project/${projectId}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to fetch project data.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Pre-fill form fields
+            form.title.value = data.title;
+            form.location.value = data.location;
+            form.yearOfCompletion.value = data.yearOfCompletion;
+            form.description.value = data.description;
+            form.status.value = data.status;
+            form.type.value = data.type;
+            form.architect.value = data.architect;
+            form.landscapeArchitect.value = data.landscapeArchitect || "";
+            form.structuralEngineer.value = data.structuralEngineer || "";
+            form.projectManagement.value = data.projectManagement || "";
+            form.consultants.value = data.consultants
+              ? data.consultants.join(", ")
+              : "";
+            form.secondarySummary.value = data.secondarySummary || "";
+            form.youtubeVideo.value = data.youtubeVideoUrl || "";
+            form.tags.value = data.tags ? data.tags.join(", ") : "";
+
+            // Update image labels
+            const imagesLabel = document.querySelector(
+              'label[for="images"] span',
+            );
+            imagesLabel.textContent = "Upload new images (optional)";
+
+            const brochureLabel = document.querySelector(
+              'label[for="brochure"] span',
+            );
+            brochureLabel.textContent = "Upload new brochure (optional)";
+          })
+          .catch((error) => {
+            console.error("Error fetching project data:", error);
+            alert("Failed to load project data. Please try again.");
+          });
+      }
+
+      // Update the existing form submit handler to handle both create and update
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        // Add text fields
+        formData.append("title", form.title.value);
+        formData.append("location", form.location.value);
+        formData.append("yearOfCompletion", form.yearOfCompletion.value);
+        formData.append("description", form.description.value);
+        formData.append("status", form.status.value);
+        formData.append("type", form.type.value);
+        formData.append("architect", form.architect.value);
+        formData.append("landscapeArchitect", form.landscapeArchitect.value);
+        formData.append("structuralEngineer", form.structuralEngineer.value);
+        formData.append("projectManagement", form.projectManagement.value);
+        formData.append("consultants", form.consultants.value);
+        formData.append("secondarySummary", form.secondarySummary.value);
+        formData.append("youtubeVideoUrl", form.youtubeVideo.value);
+        formData.append("tags", form.tags.value);
+
+        // Add files only if they're selected
+        if (form.images.files.length > 0) {
+          for (let i = 0; i < form.images.files.length; i++) {
+            formData.append("images", form.images.files[i]);
           }
+        }
 
-          if (form.brochure.files[0]) {
-            formData.append("brochure", form.brochure.files[0]);
-          }
+        if (form.brochure.files[0]) {
+          formData.append("brochure", form.brochure.files[0]);
+        }
 
-          try {
-            const response = await fetch("/forms/project", {
+        try {
+          let response;
+          if (projectId) {
+            response = await fetch(`/forms/project/${projectId}`, {
+              method: "PUT",
+              body: formData,
+            });
+          } else {
+            response = await fetch("/forms/project", {
               method: "POST",
               body: formData,
             });
-
-            if (!response.ok) {
-              throw new Error("Failed to submit project");
-            }
-
-            alert("Project submitted successfully!");
-            form.reset();
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Failed to submit project. Please try again.");
           }
-        });
+
+          if (!response.ok) {
+            throw new Error(
+              projectId
+                ? "Failed to update project."
+                : "Failed to add project.",
+            );
+          }
+
+          alert(
+            projectId
+              ? "Project updated successfully!"
+              : "Project submitted successfully!",
+          );
+          form.reset();
+        } catch (error) {
+          console.error("Error:", error);
+          alert(
+            projectId
+              ? "Failed to update project. Please try again."
+              : "Failed to submit project. Please try again.",
+          );
+        }
+      });
     </script>
   </body>
 </html>

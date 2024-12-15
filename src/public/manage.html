@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Delete Dashboard</title>
+    <title>Manage Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
@@ -31,7 +31,7 @@
 
       <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">
-          Delete Entries
+          Manage Entries
         </h1>
 
         <div class="overflow-x-auto">
@@ -56,7 +56,7 @@
                 <th
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Action
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -72,10 +72,10 @@
     <script>
       async function loadEntries() {
         const endpoints = [
-          { url: "/forms/project", type: "Project" },
-          { url: "/forms/team", type: "Team" },
-          { url: "/forms/awards", type: "Award" },
-          { url: "/forms/news", type: "News" },
+          { url: "/forms/project", type: "Project", page: "projects.html" },
+          { url: "/forms/team", type: "Team", page: "team.html" },
+          { url: "/forms/awards", type: "Award", page: "awards.html" },
+          { url: "/forms/news", type: "News", page: "news.html" },
         ];
 
         const tableBody = document.getElementById("entriesTable");
@@ -95,15 +95,23 @@
                 </td>
                 <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
                   <span class="font-medium md:hidden text-gray-500">Name: </span>
-                  <span class="text-gray-900">${item.name || item.title || item.header || "-"}</span>
+                  <span class="text-gray-900">${
+                    item.name || item.title || item.header || "-"
+                  }</span>
                 </td>
                 <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
                   <span class="font-medium md:hidden text-gray-500">Type: </span>
                   <span class="text-gray-900">${endpoint.type}</span>
                 </td>
                 <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
-                  <button onclick="deleteEntry('${endpoint.url}', '${item._id}')" 
-                          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                  <button onclick="editEntry('${endpoint.page}', '${item._id}')"
+                          class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mr-2">
+                    Edit
+                  </button>
+                  <button onclick="deleteEntry('${endpoint.url}', '${
+                    item._id
+                  }')"
+                          class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                     Delete
                   </button>
                 </td>
@@ -114,6 +122,10 @@
             console.error(`Error loading ${endpoint.type}:`, error);
           }
         }
+      }
+
+      function editEntry(page, id) {
+        window.location.href = `${page}?id=${id}`;
       }
 
       async function deleteEntry(url, id) {
