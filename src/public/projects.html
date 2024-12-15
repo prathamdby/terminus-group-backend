@@ -484,7 +484,7 @@
               ? "Project updated successfully!"
               : "Project submitted successfully!",
           );
-          form.reset();
+          projectId ? (window.location.href = "manage.html") : form.reset();
         } catch (error) {
           console.error("Error:", error);
           alert(

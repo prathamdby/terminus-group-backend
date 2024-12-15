@@ -203,7 +203,7 @@
               ? "Award updated successfully!"
               : "Award added successfully!",
           );
-          form.reset();
+          awardId ? (window.location.href = "manage.html") : form.reset();
         } catch (error) {
           console.error("Error:", error);
           alert(

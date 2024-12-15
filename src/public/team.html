@@ -220,7 +220,7 @@
               ? "Team member updated successfully!"
               : "Team member added successfully!",
           );
-          form.reset();
+          teamId ? (window.location.href = "manage.html") : form.reset();
         } catch (error) {
           console.error("Error:", error);
           alert(

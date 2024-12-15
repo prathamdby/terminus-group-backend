@@ -223,7 +223,7 @@
               ? "News article updated successfully!"
               : "News article added successfully!",
           );
-          form.reset();
+          newsId ? (window.location.href = "manage.html") : form.reset();
         } catch (error) {
           console.error("Error:", error);
           alert(
