@@ -24,6 +24,7 @@ const projectSchema = new mongoose.Schema(
     secondarySummary: String,
     youtubeVideoUrl: String,
     tags: [String],
+    builtUpArea: String,
   },
   { timestamps: true },
 );
