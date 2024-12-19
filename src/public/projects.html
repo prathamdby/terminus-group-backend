@@ -342,7 +342,7 @@
             </div>
 
             <!-- Tags -->
-            <div>
+            <!-- <div>
               <label
                 class="block text-sm font-medium text-gray-700 mb-2"
                 for="tags"
@@ -355,7 +355,7 @@
                 type="text"
                 placeholder="residential, modern, sustainable"
               />
-            </div>
+            </div> -->
           </div>
 
           <div class="flex justify-end pt-6">
@@ -405,7 +405,7 @@
               : "";
             form.secondarySummary.value = data.secondarySummary || "";
             form.youtubeVideo.value = data.youtubeVideoUrl || "";
-            form.tags.value = data.tags ? data.tags.join(", ") : "";
+            // form.tags.value = data.tags ? data.tags.join(", ") : "";
 
             // Update image labels
             const imagesLabel = document.querySelector(
@@ -444,7 +444,7 @@
         formData.append("consultants", form.consultants.value);
         formData.append("secondarySummary", form.secondarySummary.value);
         formData.append("youtubeVideoUrl", form.youtubeVideo.value);
-        formData.append("tags", form.tags.value);
+        // formData.append("tags", form.tags.value);
 
         // Add files only if they're selected
         if (form.images.files.length > 0) {
