@@ -97,14 +97,19 @@ router.post(
       const imageUrls = await uploadMultipleFiles(files?.images);
       if (!imageUrls) throw new Error("Failed to upload images.");
 
-      const brochureUrl = await uploadSingleFile(files?.brochure?.[0]);
-      if (!brochureUrl) throw new Error("Failed to upload brochure.");
+      let brochureUrl = null;
+      if (files?.brochure?.[0]) {
+        brochureUrl = await uploadSingleFile(files.brochure[0]);
+        if (!brochureUrl) throw new Error("Failed to upload brochure.");
+      }
 
       const project = await Project.create({
         ...req.body,
         images: imageUrls,
         brochureUrl,
-        tags: req.body.tags.split(",").map((tag: String) => tag.trim()),
+        tags: req.body.tags
+          ? req.body.tags.split(",").map((tag: String) => tag.trim())
+          : [],
         consultants: req.body.consultants
           .split(",")
           .map((consultant: String) => consultant.trim()),
