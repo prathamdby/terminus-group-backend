@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "tsnd --respawn src/app.ts",
-    "build": "tsc && copyfiles -u 1 src/public/**/* dist/public"
+    "build": "tsc && copyfiles -u 1 src/public/**/* dist/"
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
