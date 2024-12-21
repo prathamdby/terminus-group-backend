@@ -17,6 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/forms", formsRouter);
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// Serve index.html for the root route
 app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });

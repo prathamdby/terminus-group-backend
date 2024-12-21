@@ -31,121 +31,96 @@
 
       <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-8">
-          Manage Entries
+          Manage Dashboard
         </h1>
 
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="hidden md:table-header-group">
-              <tr>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  ID
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Name
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Type
-                </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              id="entriesTable"
-              class="bg-white divide-y divide-gray-200 block md:table-row-group"
-            ></tbody>
-          </table>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="flex flex-col items-center">
+            <a
+              href="manageProject.html"
+              class="flex items-center justify-center w-24 h-24 bg-blue-500 hover:bg-blue-600 text-white rounded-md mb-2"
+            >
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            </a>
+            <span class="text-gray-600 font-medium">Projects</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <a
+              href="manageTeam.html"
+              class="flex items-center justify-center w-24 h-24 bg-blue-500 hover:bg-blue-600 text-white rounded-md mb-2"
+            >
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            </a>
+            <span class="text-gray-600 font-medium">Team</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <a
+              href="manageAwards.html"
+              class="flex items-center justify-center w-24 h-24 bg-blue-500 hover:bg-blue-600 text-white rounded-md mb-2"
+            >
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                />
+              </svg>
+            </a>
+            <span class="text-gray-600 font-medium">Awards</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <a
+              href="manageNews.html"
+              class="flex items-center justify-center w-24 h-24 bg-blue-500 hover:bg-blue-600 text-white rounded-md mb-2"
+            >
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"
+                />
+              </svg>
+            </a>
+            <span class="text-gray-600 font-medium">News</span>
+          </div>
         </div>
       </div>
     </div>
-
-    <script>
-      async function loadEntries() {
-        const endpoints = [
-          { url: "/forms/project", type: "Project", page: "projects.html" },
-          { url: "/forms/team", type: "Team", page: "team.html" },
-          { url: "/forms/awards", type: "Award", page: "awards.html" },
-          { url: "/forms/news", type: "News", page: "news.html" },
-        ];
-
-        const tableBody = document.getElementById("entriesTable");
-
-        for (const endpoint of endpoints) {
-          try {
-            const response = await fetch(endpoint.url);
-            const data = await response.json();
-
-            data.forEach((item) => {
-              const row = document.createElement("tr");
-              row.className = "block md:table-row hover:bg-gray-50";
-              row.innerHTML = `
-                <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
-                  <span class="font-medium md:hidden text-gray-500">ID: </span>
-                  <span class="text-gray-900">${item._id || "-"}</span>
-                </td>
-                <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
-                  <span class="font-medium md:hidden text-gray-500">Name: </span>
-                  <span class="text-gray-900">${
-                    item.name || item.title || item.header || "-"
-                  }</span>
-                </td>
-                <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
-                  <span class="font-medium md:hidden text-gray-500">Type: </span>
-                  <span class="text-gray-900">${endpoint.type}</span>
-                </td>
-                <td class="block md:table-cell px-6 py-4 whitespace-nowrap text-sm">
-                  <button onclick="editEntry('${endpoint.page}', '${item._id}')"
-                          class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mr-2">
-                    Edit
-                  </button>
-                  <button onclick="deleteEntry('${endpoint.url}', '${
-                    item._id
-                  }')"
-                          class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
-                    Delete
-                  </button>
-                </td>
-              `;
-              tableBody.appendChild(row);
-            });
-          } catch (error) {
-            console.error(`Error loading ${endpoint.type}:`, error);
-          }
-        }
-      }
-
-      function editEntry(page, id) {
-        window.location.href = `${page}?id=${id}`;
-      }
-
-      async function deleteEntry(url, id) {
-        if (confirm("Are you sure you want to delete this entry?")) {
-          try {
-            const response = await fetch(`${url}/${id}`, {
-              method: "DELETE",
-            });
-            if (response.ok) {
-              location.reload();
-            } else {
-              alert("Failed to delete entry");
-            }
-          } catch (error) {
-            console.error("Error deleting entry:", error);
-          }
-        }
-      }
-
-      window.onload = loadEntries;
-    </script>
   </body>
 </html>
